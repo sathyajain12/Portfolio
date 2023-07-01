@@ -2,19 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Your Portfolio Website</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>Glowing Button</title>
+  <link rel="stylesheet" type="text/css" href="styles.scss">
 </head>
 <body>
-  <section class="hero">
-    <div class="hero-content">
-      <a href="portfolio.html" class="cta-button">View Portfolio</a>
-    </div>
-  </section>
+  <i class="background"></i>
+  <a href="portfolio.html">Button</a>
 
-  <footer>
-    <p>&copy; <?php echo date("Y"); ?> Your Name. All rights reserved.</p>
-  </footer>
+  <script>
+    document.querySelector("a").addEventListener("click", function() {
+      window.location.href = this.getAttribute("href");
+    });
+  </script>
 </body>
 </html>
