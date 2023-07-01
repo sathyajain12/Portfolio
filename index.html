@@ -1,47 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>My Portfolio</title>
-  <link rel="stylesheet" type="text/css" href="styles.css">
-  <script src="script.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Portfolio Website</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <h1>My Portfolio</h1>
-    <nav>
-      <ul>
-        <li><a href="#about">About</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <section id="about">
-    <h2>About Me</h2>
-    <!-- Add your content here -->
-  </section>
-
-  <section id="projects">
-    <h2>Projects</h2>
-    <!-- Add your projects here -->
-  </section>
-
-  <section id="contact">
-    <h2>Contact Me</h2>
-    <form action="contact.php" method="POST">
-      <label for="name">Name:</label>
-      <input type="text" id="name" name="name" required>
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email" required>
-      <label for="message">Message:</label>
-      <textarea id="message" name="message" required></textarea>
-      <button type="submit">Send Message</button>
-    </form>
+  <section class="hero">
+    <div class="hero-content">
+      <a href="portfolio.html" class="cta-button">View Portfolio</a>
+    </div>
   </section>
 
   <footer>
-    <p>&copy; 2023 My Portfolio. All rights reserved.</p>
+    <p>&copy; <?php echo date("Y"); ?> Your Name. All rights reserved.</p>
   </footer>
 </body>
 </html>

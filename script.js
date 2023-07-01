@@ -1,22 +1,20 @@
-// script.js
+const burger = document.querySelector('.burger');
+const nav = document.querySelector('.nav-links');
 
-const sections = document.querySelectorAll('section');
-const navLinks = document.querySelectorAll('nav a');
+burger.addEventListener('click', () => {
+  // Toggle the burger animation
+  burger.classList.toggle('toggle');
 
-window.addEventListener('scroll', () => {
-  const currentSection = sections.length - [...sections].reverse().findIndex((section) => window.scrollY >= section.offsetTop - 50) - 1;
-  navLinks.forEach((link) => link.classList.remove('active'));
-  navLinks[currentSection].classList.add('active');
-});
+  // Toggle the nav menu visibility
+  nav.classList.toggle('nav-active');
 
-// Smooth scrolling for anchor links
-navLinks.forEach((link) => {
-  link.addEventListener('click', (e) => {
-    e.preventDefault();
-    const targetId = link.getAttribute('href');
-    window.scrollTo({
-      top: document.querySelector(targetId).offsetTop,
-      behavior: 'smooth'
-    });
+  // Animate the nav links
+  const navLinks = document.querySelectorAll('.nav-links li');
+  navLinks.forEach((link, index) => {
+    if (link.style.animation) {
+      link.style.animation = '';
+    } else {
+      link.style.animation = `navLinkFade 0.5s ease forwards ${index / 7 + 0.3}s`;
+    }
   });
 });
