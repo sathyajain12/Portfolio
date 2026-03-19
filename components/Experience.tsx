@@ -100,7 +100,25 @@ export default function Experience() {
   const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   return (
-    <section id="experience" className="py-28 px-6 bg-white dark:bg-[#0a0a0a]">
+    <section id="experience" className="relative py-28 px-6 bg-white dark:bg-[#0a0a0a]">
+      {/* Violet glow left (timeline) + noise */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 45% 80% at -5% 50%, rgba(109,40,217,0.13) 0%, transparent 60%)",
+          }}
+        />
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+            backgroundRepeat: "repeat",
+            backgroundSize: "256px 256px",
+          }}
+        />
+      </div>
       <div className="max-w-4xl mx-auto">
         {/* Section Header */}
         <motion.div

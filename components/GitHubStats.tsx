@@ -45,7 +45,25 @@ export default function GitHubStats() {
   if (error) return null;
 
   return (
-    <section id="github" className="py-24 bg-[#0a0a0a] dark:bg-[#0a0a0a] bg-white relative">
+    <section id="github" className="py-24 bg-white dark:bg-[#0a0a0a] relative">
+      {/* Green glow top-center + noise */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 80% 45% at 50% 0%, rgba(34,197,94,0.08) 0%, transparent 65%)",
+          }}
+        />
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+            backgroundRepeat: "repeat",
+            backgroundSize: "256px 256px",
+          }}
+        />
+      </div>
       {/* subtle grid */}
       <div
         className="absolute inset-0 pointer-events-none opacity-[0.025]"
@@ -81,28 +99,6 @@ export default function GitHubStats() {
             <Github size={15} />
             View Profile
           </a>
-        </motion.div>
-
-        {/* Stats bar */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="flex flex-wrap gap-6 mb-10"
-        >
-          {[
-            { label: "Public Repos", value: data?.publicRepos },
-            { label: "Followers", value: data?.followers },
-            { label: "Total Stars", value: data?.totalStars },
-          ].map(({ label, value }) => (
-            <div key={label} className="flex items-baseline gap-2">
-              <span className="text-2xl font-space font-bold text-white dark:text-white">
-                {value !== undefined ? value : "—"}
-              </span>
-              <span className="text-sm text-gray-500 dark:text-gray-500">{label}</span>
-            </div>
-          ))}
         </motion.div>
 
         {/* Repo cards */}

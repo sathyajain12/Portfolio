@@ -35,7 +35,7 @@ export default function Contact() {
     const data = new FormData(form);
 
     try {
-      const res = await fetch("https://formspree.io/f/YOUR_FORM_ID", {
+      const res = await fetch("https://formspree.io/f/xeernrrp", {
         method: "POST",
         body: data,
         headers: { Accept: "application/json" },
@@ -52,7 +52,25 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" className="py-28 px-6 bg-slate-50 dark:bg-[#0d0d0d]">
+    <section id="contact" className="relative py-28 px-6 bg-white dark:bg-[#0a0a0a]">
+      {/* Violet glow bottom-center + noise */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 80% 50% at 50% 110%, rgba(109,40,217,0.12) 0%, transparent 65%)",
+          }}
+        />
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+            backgroundRepeat: "repeat",
+            backgroundSize: "256px 256px",
+          }}
+        />
+      </div>
       <div className="max-w-4xl mx-auto">
         {/* Section Header */}
         <motion.div

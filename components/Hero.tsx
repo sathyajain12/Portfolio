@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Download, Github, Linkedin, Mail } from "lucide-react";
 import { useEffect, useState } from "react";
-import { AuroraBackground } from "./ui/aurora-background";
 import MagneticButton from "./MagneticButton";
 
 const roles = [
@@ -30,7 +29,27 @@ export default function Hero() {
 
   return (
     <section className="relative w-full min-h-screen overflow-hidden bg-white dark:bg-zinc-950">
-      <AuroraBackground className="w-full min-h-screen">
+      {/* Noise + gradient background */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {/* Violet radial glow from top */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 100% 60% at 50% -5%, rgba(109,40,217,0.18) 0%, transparent 70%)",
+          }}
+        />
+        {/* SVG noise texture */}
+        <div
+          className="absolute inset-0 opacity-[0.035]"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+            backgroundRepeat: "repeat",
+            backgroundSize: "256px 256px",
+          }}
+        />
+      </div>
+      <div className="w-full min-h-screen flex items-center justify-center">
         <div className="px-6 pt-20 flex flex-col items-center justify-center w-full h-full relative z-10">
           {/* Grid pattern overlay */}
       <div
@@ -153,7 +172,7 @@ export default function Hero() {
       </div>
 
         </div>
-      </AuroraBackground>
+      </div>
     </section>
   );
 }

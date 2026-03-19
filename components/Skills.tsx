@@ -82,7 +82,25 @@ const colorMap: Record<
 
 export default function Skills() {
   return (
-    <section id="skills" className="py-28 px-6 bg-slate-50 dark:bg-[#0d0d0d]">
+    <section id="skills" className="relative py-28 px-6 bg-white dark:bg-[#0a0a0a]">
+      {/* Violet glow left + noise */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 50% 70% at 0% 50%, rgba(139,92,246,0.10) 0%, transparent 60%)",
+          }}
+        />
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+            backgroundRepeat: "repeat",
+            backgroundSize: "256px 256px",
+          }}
+        />
+      </div>
       <div className="max-w-6xl mx-auto">
         {/* Section header */}
         <motion.div
