@@ -1,8 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Github, Linkedin, Mail } from "lucide-react";
+import { ArrowRight, Download, Github, Linkedin, Mail } from "lucide-react";
 import { useEffect, useState } from "react";
+import { AuroraBackground } from "./ui/aurora-background";
+import MagneticButton from "./MagneticButton";
 
 const roles = [
   "Full-Stack Developer",
@@ -27,15 +29,10 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="min-h-screen flex items-center justify-center px-6 pt-20 relative overflow-hidden">
-      {/* Background glow blobs */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-violet-700/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-1/4 left-1/4 w-72 h-72 bg-cyan-600/8 rounded-full blur-[100px]" />
-        <div className="absolute top-1/4 right-1/4 w-48 h-48 bg-violet-500/5 rounded-full blur-[80px]" />
-      </div>
-
-      {/* Grid pattern overlay */}
+    <section className="relative w-full min-h-screen overflow-hidden bg-white dark:bg-zinc-950">
+      <AuroraBackground className="w-full min-h-screen">
+        <div className="px-6 pt-20 flex flex-col items-center justify-center w-full h-full relative z-10">
+          {/* Grid pattern overlay */}
       <div
         className="absolute inset-0 pointer-events-none opacity-[0.03]"
         style={{
@@ -60,7 +57,7 @@ export default function Hero() {
 
         {/* Name */}
         <motion.h1
-          className="text-5xl md:text-7xl font-space font-bold text-white mb-4 leading-tight tracking-tight"
+          className="text-5xl md:text-7xl font-space font-bold text-zinc-900 dark:text-white mb-4 leading-tight tracking-tight"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, delay: 0.1 }}
@@ -85,35 +82,48 @@ export default function Hero() {
 
         {/* Tagline */}
         <motion.p
-          className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed"
+          className="text-lg md:text-xl text-zinc-500 dark:text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
         >
           I build and ship full-stack web products end-to-end — from rough idea to
           working, deployed product with{" "}
-          <span className="text-gray-200">full ownership, clean code, and real users.</span>
+          <span className="text-zinc-800 dark:text-gray-200">full ownership, clean code, and real users.</span>
         </motion.p>
 
-        {/* CTA Buttons */}
         <motion.div
           className="flex flex-wrap items-center justify-center gap-4 mb-14"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
         >
-          <a
-            href="#projects"
-            className="flex items-center gap-2 px-6 py-3 bg-violet-600 hover:bg-violet-500 text-white rounded-xl font-medium transition-all duration-200 hover:shadow-xl hover:shadow-violet-500/25 hover:-translate-y-0.5"
-          >
-            See My Work <ArrowRight size={16} />
-          </a>
-          <a
-            href="#contact"
-            className="px-6 py-3 border border-white/15 hover:border-white/35 text-white rounded-xl font-medium transition-all duration-200 hover:bg-white/5 hover:-translate-y-0.5"
-          >
-            Get in Touch
-          </a>
+          <MagneticButton>
+            <a
+              href="#projects"
+              className="flex items-center gap-2 px-6 py-3 bg-violet-600 hover:bg-violet-500 text-white rounded-xl font-medium transition-all duration-200 hover:shadow-xl hover:shadow-violet-500/25 hover:-translate-y-0.5"
+            >
+              See My Work <ArrowRight size={16} />
+            </a>
+          </MagneticButton>
+          <MagneticButton>
+            <a
+              href="#contact"
+              className="px-6 py-3 border border-white/15 hover:border-white/35 text-white rounded-xl font-medium transition-all duration-200 hover:bg-white/5 hover:-translate-y-0.5"
+            >
+              Get in Touch
+            </a>
+          </MagneticButton>
+          <MagneticButton>
+            <a
+              href="/resume.pdf"
+              download
+              className="flex items-center gap-2 px-6 py-3 border border-white/10 hover:border-white/25 text-gray-400 hover:text-white rounded-xl font-medium transition-all duration-200 hover:bg-white/5 hover:-translate-y-0.5"
+            >
+              <Download size={16} />
+              Resume
+            </a>
+          </MagneticButton>
         </motion.div>
 
         {/* Social Links */}
@@ -134,7 +144,7 @@ export default function Hero() {
               target={href.startsWith("http") ? "_blank" : undefined}
               rel="noopener noreferrer"
               aria-label={label}
-              className="text-gray-500 hover:text-white transition-colors duration-200"
+              className="text-zinc-400 dark:text-gray-500 hover:text-zinc-900 dark:hover:text-white transition-colors duration-200"
             >
               <Icon size={20} />
             </a>
@@ -142,16 +152,8 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* Scroll indicator */}
-      <motion.div
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, delay: 1 }}
-      >
-        <span className="text-xs font-mono text-gray-600">scroll</span>
-        <div className="w-px h-8 bg-gradient-to-b from-gray-600 to-transparent" />
-      </motion.div>
+        </div>
+      </AuroraBackground>
     </section>
   );
 }

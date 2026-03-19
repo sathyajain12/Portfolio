@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { ExternalLink } from "lucide-react";
+import { Hover3DCard } from "./ui/Hover3DCard";
 
 const projects = [
   {
@@ -11,6 +12,11 @@ const projects = [
     tech: ["React 19", "Vite", "Cloudflare Workers", "Cloudflare D1", "Google APIs", "Gmail API"],
     color: "violet",
     highlight: "9 form types · Multi-stage approvals · 4 campuses",
+    stats: [
+      { label: "Form types", value: "9" },
+      { label: "Campuses", value: "4" },
+      { label: "Servers", value: "0" },
+    ],
   },
   {
     title: "IO-SYS — Inward/Outward Management System",
@@ -19,6 +25,11 @@ const projects = [
     tech: ["React 19", "Hono", "Cloudflare Workers", "Cloudflare D1", "Google OAuth"],
     color: "cyan",
     highlight: "Admin & Team portals · OAuth-gated · Analytics dashboard",
+    stats: [
+      { label: "Portals", value: "2" },
+      { label: "Status stages", value: "3" },
+      { label: "Auth", value: "OAuth" },
+    ],
   },
 ];
 
@@ -48,10 +59,10 @@ export default function Projects() {
           <span className="text-sm font-mono text-violet-400 tracking-widest uppercase">
             // featured work
           </span>
-          <h2 className="text-4xl md:text-5xl font-space font-bold text-white mt-3">
+          <h2 className="text-4xl md:text-5xl font-space font-bold text-zinc-900 dark:text-white mt-3">
             Projects
           </h2>
-          <p className="text-gray-400 mt-3 max-w-xl text-base leading-relaxed">
+          <p className="text-zinc-500 dark:text-gray-400 mt-3 max-w-xl text-base leading-relaxed">
             Real products built, deployed, and used — end to end, with full ownership.
           </p>
         </motion.div>
@@ -65,57 +76,70 @@ export default function Projects() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.12 }}
-              className="group relative bg-[#141414] border border-white/10 rounded-2xl p-7 hover:border-violet-500/25 transition-all duration-300 overflow-hidden"
             >
-              {/* Hover gradient overlay */}
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-violet-600/5 via-transparent to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+              <Hover3DCard className="group relative bg-white dark:bg-[#141414] border border-black/8 dark:border-white/10 p-7 hover:border-violet-500/25">
+                {/* Hover gradient overlay */}
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-violet-600/5 via-transparent to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
-              <div className="relative z-10">
-                {/* Status badge */}
-                <div
-                  className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium mb-5 ${
-                    project.color === "violet"
-                      ? "bg-violet-500/10 text-violet-400 border border-violet-500/20"
-                      : "bg-cyan-500/10 text-cyan-400 border border-cyan-500/20"
-                  }`}
-                >
-                  <span
-                    className={`w-1.5 h-1.5 rounded-full animate-pulse ${
-                      project.color === "violet" ? "bg-violet-400" : "bg-cyan-400"
+                <div className="relative z-10 w-full h-full flex flex-col">
+                  {/* Status badge */}
+                  <div
+                    className={`inline-flex items-center self-start gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium mb-5 ${
+                      project.color === "violet"
+                        ? "bg-violet-500/10 text-violet-400 border border-violet-500/20"
+                        : "bg-cyan-500/10 text-cyan-400 border border-cyan-500/20"
                     }`}
-                  />
-                  Production · Live
-                </div>
-
-                {/* Title */}
-                <h3 className="text-xl font-space font-bold text-white mb-3 leading-snug">
-                  {project.title}
-                </h3>
-
-                {/* Highlight strip */}
-                <p className="text-xs font-mono text-gray-500 mb-4 border-l-2 border-violet-500/40 pl-3">
-                  {project.highlight}
-                </p>
-
-                {/* Description */}
-                <p className="text-gray-400 text-sm leading-relaxed mb-6">
-                  {project.description}
-                </p>
-
-                {/* Tech stack */}
-                <div className="flex flex-wrap gap-2">
-                  {project.tech.map((t) => (
+                  >
                     <span
-                      key={t}
-                      className={`px-2.5 py-1 text-xs rounded-md border font-medium ${
-                        techColorMap[t] || "bg-white/5 text-gray-400 border-white/10"
+                      className={`w-1.5 h-1.5 rounded-full animate-pulse ${
+                        project.color === "violet" ? "bg-violet-400" : "bg-cyan-400"
                       }`}
-                    >
-                      {t}
-                    </span>
-                  ))}
+                    />
+                    Production · Live
+                  </div>
+
+                  {/* Title */}
+                  <h3 className="text-xl font-space font-bold text-zinc-900 dark:text-white mb-3 leading-snug">
+                    {project.title}
+                  </h3>
+
+                  {/* Highlight strip */}
+                  <p className="text-xs font-mono text-zinc-400 dark:text-gray-500 mb-4 border-l-2 border-violet-500/40 pl-3">
+                    {project.highlight}
+                  </p>
+
+                  {/* Description */}
+                  <p className="text-zinc-500 dark:text-gray-400 text-sm leading-relaxed mb-6 flex-grow">
+                    {project.description}
+                  </p>
+
+                  {/* Stats */}
+                  <div className="flex gap-4 mb-5">
+                    {project.stats.map((stat) => (
+                      <div key={stat.label} className="flex flex-col">
+                        <span className="text-lg font-space font-bold text-zinc-900 dark:text-white leading-none">
+                          {stat.value}
+                        </span>
+                        <span className="text-xs text-zinc-400 dark:text-gray-600 mt-0.5">{stat.label}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Tech stack */}
+                  <div className="flex flex-wrap gap-2 mt-auto">
+                    {project.tech.map((t) => (
+                      <span
+                        key={t}
+                        className={`px-2.5 py-1 text-xs rounded-md border font-medium ${
+                          techColorMap[t] || "bg-black/5 dark:bg-white/5 text-zinc-500 dark:text-gray-400 border-black/8 dark:border-white/10"
+                        }`}
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              </Hover3DCard>
             </motion.div>
           ))}
         </div>
@@ -132,7 +156,7 @@ export default function Projects() {
             href="https://github.com/sathyajain12"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-white transition-colors"
+            className="inline-flex items-center gap-2 text-sm text-zinc-400 dark:text-gray-500 hover:text-zinc-900 dark:hover:text-white transition-colors"
           >
             <ExternalLink size={14} />
             More on GitHub

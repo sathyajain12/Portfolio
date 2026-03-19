@@ -82,7 +82,7 @@ const colorMap: Record<
 
 export default function Skills() {
   return (
-    <section id="skills" className="py-28 px-6 bg-[#0d0d0d]">
+    <section id="skills" className="py-28 px-6 bg-slate-50 dark:bg-[#0d0d0d]">
       <div className="max-w-6xl mx-auto">
         {/* Section header */}
         <motion.div
@@ -95,10 +95,10 @@ export default function Skills() {
           <span className="text-sm font-mono text-violet-400 tracking-widest uppercase">
             // tech stack
           </span>
-          <h2 className="text-4xl md:text-5xl font-space font-bold text-white mt-3">
+          <h2 className="text-4xl md:text-5xl font-space font-bold text-zinc-900 dark:text-white mt-3">
             Skills
           </h2>
-          <p className="text-gray-400 mt-3 text-base">
+          <p className="text-zinc-500 dark:text-gray-400 mt-3 text-base">
             Technologies I work with to build and ship products.
           </p>
         </motion.div>
@@ -114,7 +114,7 @@ export default function Skills() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: i * 0.06 }}
-                className="bg-[#141414] border border-white/10 rounded-xl p-5 hover:border-white/20 transition-colors duration-300"
+                className="bg-white dark:bg-[#141414] border border-black/8 dark:border-white/10 rounded-xl p-5 hover:border-black/20 dark:hover:border-white/20 transition-colors duration-300"
               >
                 {/* Group header */}
                 <div className="flex items-center gap-2 mb-4">
