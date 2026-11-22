@@ -1,74 +1,64 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 
+/**
+ * A small accent dot that trails the native cursor and opens into a ring
+ * over links and buttons. The native cursor stays visible.
+ */
 export default function CustomCursor() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isHovering, setIsHovering] = useState(false);
-  const [isTouch, setIsTouch] = useState(false);
+  const [enabled, setEnabled] = useState(false);
+  const [hovering, setHovering] = useState(false);
+  const [visible, setVisible] = useState(false);
+
+  const x = useMotionValue(-100);
+  const y = useMotionValue(-100);
+  const sx = useSpring(x, { stiffness: 500, damping: 40, mass: 0.4 });
+  const sy = useSpring(y, { stiffness: 500, damping: 40, mass: 0.4 });
 
   useEffect(() => {
-    if (window.matchMedia("(pointer: coarse)").matches) {
-      setIsTouch(true);
-      return;
-    }
-    const updateMousePosition = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
+    const fine = window.matchMedia("(pointer: fine)").matches;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!fine || reduced) return;
+    setEnabled(true);
+
+    const move = (e: MouseEvent) => {
+      x.set(e.clientX);
+      y.set(e.clientY);
+      setVisible(true);
     };
-
-    const handleMouseOver = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      // Check if the target or any of its parents is an anchor tag or button
-      if (target.closest("a") || target.closest("button")) {
-        setIsHovering(true);
-      } else {
-        setIsHovering(false);
-      }
+    const over = (e: MouseEvent) => {
+      const t = e.target as HTMLElement;
+      setHovering(!!t.closest("a, button, input, textarea, label"));
     };
+    const leave = () => setVisible(false);
 
-    window.addEventListener("mousemove", updateMousePosition);
-    window.addEventListener("mouseover", handleMouseOver);
-
+    window.addEventListener("mousemove", move);
+    window.addEventListener("mouseover", over);
+    document.documentElement.addEventListener("mouseleave", leave);
     return () => {
-      window.removeEventListener("mousemove", updateMousePosition);
-      window.removeEventListener("mouseover", handleMouseOver);
+      window.removeEventListener("mousemove", move);
+      window.removeEventListener("mouseover", over);
+      document.documentElement.removeEventListener("mouseleave", leave);
     };
-  }, []);
+  }, [x, y]);
 
-  if (isTouch) return null;
+  if (!enabled) return null;
 
   return (
-    <>
-      <motion.div
-        className="fixed top-0 left-0 w-4 h-4 bg-white rounded-full pointer-events-none z-[100] mix-blend-difference"
-        animate={{
-          x: mousePosition.x - 8,
-          y: mousePosition.y - 8,
-          scale: isHovering ? 2.5 : 1,
-        }}
-        transition={{
-          type: "spring",
-          stiffness: 700,
-          damping: 30,
-          mass: 0.5,
-        }}
-      />
-      <motion.div
-        className="fixed top-0 left-0 w-8 h-8 border border-white/30 rounded-full pointer-events-none z-[99]"
-        animate={{
-          x: mousePosition.x - 16,
-          y: mousePosition.y - 16,
-          scale: isHovering ? 1.5 : 1,
-          opacity: isHovering ? 0 : 1,
-        }}
-        transition={{
-          type: "spring",
-          stiffness: 300,
-          damping: 20,
-          mass: 0.8,
-        }}
-      />
-    </>
+    <motion.div
+      aria-hidden
+      className={`fixed top-0 left-0 z-[100] pointer-events-none rounded-full border border-accent transition-colors duration-150 ${
+        hovering ? "bg-transparent" : "bg-accent"
+      }`}
+      style={{ x: sx, y: sy, translateX: "-50%", translateY: "-50%" }}
+      animate={{
+        width: hovering ? 34 : 8,
+        height: hovering ? 34 : 8,
+        opacity: visible ? 1 : 0,
+      }}
+      transition={{ duration: 0.18, ease: "easeOut" }}
+    />
   );
 }

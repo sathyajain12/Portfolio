@@ -2,21 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Colour tokens, as RGB channels so Tailwind opacity modifiers work. */
 :root {
-  --background: #ffffff;
-  --foreground: #0a0a0a;
-  --scrollbar-track: #f1f1f1;
+  --paper: 246 243 236;   /* #F6F3EC */
+  --paper-2: 238 233 222; /* raised surfaces */
+  --ink: 26 24 20;        /* #1A1814 */
+  --muted: 92 86 76;
+  --faint: 140 133 120;
+  --rule: 26 24 20;       /* used at low opacity */
+  --accent: 178 58 30;    /* #B23A1E */
+  color-scheme: light;
 }
 
 .dark {
-  --background: #0a0a0a;
-  --foreground: #f0f0f0;
-  --scrollbar-track: #0a0a0a;
-}
-
-* {
-  box-sizing: border-box;
-  cursor: none !important;
+  --paper: 20 19 15;      /* #14130F */
+  --paper-2: 30 28 23;
+  --ink: 236 231 220;
+  --muted: 170 162 148;
+  --faint: 120 113 101;
+  --rule: 236 231 220;
+  --accent: 226 106 72;   /* lifted for contrast on dark */
+  color-scheme: dark;
 }
 
 html {
@@ -24,39 +30,37 @@ html {
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: rgb(var(--paper));
+  color: rgb(var(--ink));
 }
 
-::-webkit-scrollbar {
-  width: 5px;
+::selection {
+  background: rgb(var(--accent) / 0.2);
 }
 
-::-webkit-scrollbar-track {
-  background: var(--scrollbar-track);
-}
-
-::-webkit-scrollbar-thumb {
-  background: #7c3aed;
-  border-radius: 999px;
-}
-
-/* Restore native cursor on touch/mobile devices */
-@media (pointer: coarse) {
-  * {
-    cursor: auto !important;
-  }
-}
-
-/* Keyboard focus indicators */
 :focus-visible {
-  outline: 2px solid #7c3aed;
+  outline: 2px solid rgb(var(--accent));
   outline-offset: 3px;
-  border-radius: 4px;
+  border-radius: 2px;
 }
 
-/* Respect reduced motion preference */
+/* Underlined text links */
+.link {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  text-decoration-color: rgb(var(--ink) / 0.3);
+  transition: text-decoration-color 150ms, color 150ms;
+}
+.link:hover {
+  color: rgb(var(--accent));
+  text-decoration-color: rgb(var(--accent));
+}
+
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;

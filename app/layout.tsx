@@ -1,46 +1,48 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import { Inter, Newsreader, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import CustomCursor from "@/components/CustomCursor";
 import ChatWidget from "@/components/ChatWidget";
-import PageLoader from "@/components/PageLoader";
 import Providers from "@/components/Providers";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], variable: "--font-space" });
-const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" });
+const sans = Inter({ subsets: ["latin"], variable: "--font-sans" });
+const serif = Newsreader({
+  subsets: ["latin"],
+  variable: "--font-serif",
+  style: ["normal", "italic"],
+  axes: ["opsz"],
+});
+const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" });
+
+const description =
+  "Full-stack developer in Jaipur building the internal systems an examinations office runs on: React, Next.js, TypeScript and Cloudflare Workers.";
 
 export const metadata: Metadata = {
-  title: "Sai Sathya Jain | Full-Stack Developer",
-  description:
-    "Full-Stack Developer specializing in React, Next.js, TypeScript, and Cloudflare. Builds and ships production web products end-to-end with full ownership from concept to deployment.",
+  title: "Sai Sathya Jain, Full-Stack Developer",
+  description,
   keywords: [
     "Full-Stack Developer",
     "React Developer",
     "Next.js Developer",
     "TypeScript",
     "Cloudflare Workers",
-    "Serverless",
     "Hono",
-    "Web Developer India",
     "Jaipur Developer",
     "Sai Sathya Jain",
   ],
   authors: [{ name: "Sai Sathya Jain", url: "https://github.com/sathyajain12" }],
   creator: "Sai Sathya Jain",
   openGraph: {
-    title: "Sai Sathya Jain | Full-Stack Developer",
-    description:
-      "Full-Stack Developer specializing in React, Next.js & Cloudflare. Building serverless products end-to-end with full ownership.",
-    siteName: "Sai Sathya Jain Portfolio",
+    title: "Sai Sathya Jain, Full-Stack Developer",
+    description,
+    siteName: "Sai Sathya Jain",
     type: "website",
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sai Sathya Jain | Full-Stack Developer",
-    description:
-      "Full-Stack Developer specializing in React, Next.js & Cloudflare. Building serverless products end-to-end.",
+    title: "Sai Sathya Jain, Full-Stack Developer",
+    description,
     creator: "@sathyajain",
   },
 };
@@ -50,11 +52,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
+      className={`${sans.variable} ${serif.variable} ${mono.variable}`}
     >
-      <body className="font-sans bg-white dark:bg-zinc-950 text-zinc-900 dark:text-slate-50 antialiased selection:bg-violet-500/30 cursor-none">
+      <body className="font-sans bg-paper text-ink antialiased">
         <Providers>
-          <PageLoader />
           <CustomCursor />
           {children}
           <ChatWidget />

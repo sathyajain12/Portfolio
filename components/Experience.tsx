@@ -1,215 +1,108 @@
-"use client";
+import Section from "./Section";
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { Briefcase, GraduationCap, BookOpen } from "lucide-react";
-
-type WorkEntry = {
-  type: "work";
+type Row = {
+  period: string;
   title: string;
   org: string;
-  period: string;
-  bullets: string[];
-  current: boolean;
+  detail?: string;
+  bullets?: string[];
+  href?: string;
 };
 
-type EducationEntry = {
-  type: "education";
-  title: string;
-  org: string;
-  period: string;
-  extra: string;
-  current: boolean;
-};
-
-type PublicationEntry = {
-  type: "publication";
-  title: string;
-  org: string;
-  period: string;
-  extra: string;
-  current: boolean;
-};
-
-type Entry = WorkEntry | EducationEntry | PublicationEntry;
-
-const entries: Entry[] = [
+const work: Row[] = [
   {
-    type: "work",
+    period: "Sep 2025 – now",
     title: "Assistant Manager, Controller of Examinations",
     org: "Sri Sathya Sai Institute of Higher Learning",
-    period: "Sep 2025 – Present",
     bullets: [
-      "Build internal web apps end-to-end — rough idea in a meeting to working prototype the same day.",
-      "Ship clean, usable UIs directly from vague requirements with full ownership from idea to deployment.",
-      "Integrate REST & Google Workspace APIs to automate data pipelines across four campuses; continuously refine UX based on real user feedback.",
+      "Build the office's internal web apps, often going from a requirement raised in a meeting to a working prototype the same day.",
+      "Connect REST and Google Workspace APIs to automate data flows across four campuses.",
+      "Refine the tools based on feedback from the staff who use them.",
     ],
-    current: true,
   },
   {
-    type: "work",
+    period: "Nov 2024 – Sep 2025",
     title: "Intern, Controller of Examinations",
     org: "Sri Sathya Sai Institute of Higher Learning",
-    period: "Nov 2024 – Sep 2025",
     bullets: [
-      "Delivered automation tools within days of joining; prototyped, tested, and shipped independently with no prior onboarding.",
-      "Built a Streamlit app for automated academic report generation, replacing a fully manual process.",
-      "Prototyped exam dispatch & result consolidation workflows.",
+      "Shipped my first automation tools within days of joining.",
+      "Built a Streamlit app that generates academic reports, replacing a manual process.",
+      "Prototyped exam dispatch and result consolidation workflows.",
     ],
-    current: false,
-  },
-  {
-    type: "education",
-    title: "MSc in Data Science",
-    org: "Gitam University",
-    period: "Oct 2021 – June 2023",
-    extra: "CGPA: 7.0",
-    current: false,
-  },
-  {
-    type: "education",
-    title: "BSc in Information Technology",
-    org: "Amity University, Jaipur",
-    period: "Aug 2017 – April 2020",
-    extra: "CGPA: 7.0",
-    current: false,
-  },
-  {
-    type: "publication",
-    title: "IEEE Research Publication",
-    org: "AICAI 2019 — DOI: 10.1109/AICAI.2019.8701361",
-    period: "2019",
-    extra:
-      "Study on Use of AI and Big Data for Commercial Systems — co-authored with Vyas, S., Choudhary, I., Chaudhary, A.",
-    current: false,
   },
 ];
 
-const iconConfig = {
-  work: { icon: Briefcase, bg: "bg-violet-600/10", border: "border-violet-500/25", color: "text-violet-400" },
-  education: { icon: GraduationCap, bg: "bg-cyan-500/10", border: "border-cyan-500/25", color: "text-cyan-400" },
-  publication: { icon: BookOpen, bg: "bg-orange-500/10", border: "border-orange-500/25", color: "text-orange-400" },
-};
+const education: Row[] = [
+  {
+    period: "2021 – 2023",
+    title: "MSc, Data Science",
+    org: "GITAM University",
+  },
+  {
+    period: "2017 – 2020",
+    title: "BSc, Information Technology",
+    org: "Amity University, Jaipur",
+  },
+];
+
+const publications: Row[] = [
+  {
+    period: "2019",
+    title: "Study on Use of AI and Big Data for Commercial Systems",
+    org: "IEEE AICAI 2019",
+    detail: "With S. Vyas, I. Choudhary and A. Chaudhary.",
+    href: "https://doi.org/10.1109/AICAI.2019.8701361",
+  },
+];
+
+function Group({ heading, rows }: { heading: string; rows: Row[] }) {
+  return (
+    <div>
+      <h3 className="font-mono text-xs text-faint mb-4">{heading}</h3>
+      <ol className="divide-y divide-rule/10">
+        {rows.map((r) => (
+          <li key={r.title} className="py-5 first:pt-0 grid sm:grid-cols-[10rem_1fr] gap-x-6 gap-y-1">
+            <span className="font-mono text-xs text-faint pt-1">{r.period}</span>
+            <div>
+              <p className="font-medium">
+                {r.href ? (
+                  <a href={r.href} target="_blank" rel="noopener noreferrer" className="link">
+                    {r.title}
+                  </a>
+                ) : (
+                  r.title
+                )}
+              </p>
+              <p className="text-muted">{r.org}</p>
+              {r.detail && <p className="mt-1 text-sm text-muted">{r.detail}</p>}
+              {r.bullets && (
+                <ul className="mt-3 space-y-1.5 text-muted leading-relaxed max-w-2xl">
+                  {r.bullets.map((b) => (
+                    <li key={b} className="pl-4 relative">
+                      <span className="absolute left-0 text-faint" aria-hidden>
+                        –
+                      </span>
+                      {b}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+}
 
 export default function Experience() {
-  const timelineRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: timelineRef,
-    offset: ["start 85%", "end 75%"],
-  });
-  const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
-
   return (
-    <section id="experience" className="relative py-28 px-6 bg-white dark:bg-[#0a0a0a]">
-      {/* Violet glow left (timeline) + noise */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(ellipse 45% 80% at -5% 50%, rgba(109,40,217,0.13) 0%, transparent 60%)",
-          }}
-        />
-        <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
-            backgroundRepeat: "repeat",
-            backgroundSize: "256px 256px",
-          }}
-        />
+    <Section id="experience" number="02" title="Experience">
+      <div className="space-y-12">
+        <Group heading="Work" rows={work} />
+        <Group heading="Education" rows={education} />
+        <Group heading="Publications" rows={publications} />
       </div>
-      <div className="max-w-4xl mx-auto">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="mb-16"
-        >
-          <span className="text-sm font-mono text-violet-400 tracking-widest uppercase">
-            // background
-          </span>
-          <h2 className="text-4xl md:text-5xl font-space font-bold text-zinc-900 dark:text-white mt-3">
-            Experience
-          </h2>
-        </motion.div>
-
-        {/* Timeline */}
-        <div className="relative" ref={timelineRef}>
-          {/* Vertical line */}
-          <div className="absolute left-5 top-2 bottom-2 w-px bg-white/5 md:left-6 overflow-hidden">
-            <motion.div
-              className="w-full bg-gradient-to-b from-violet-500/80 to-violet-500/20"
-              style={{ height: lineHeight }}
-            />
-          </div>
-
-          <div className="space-y-6">
-            {entries.map((entry, i) => {
-              const cfg = iconConfig[entry.type];
-              const Icon = cfg.icon;
-
-              return (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.45, delay: i * 0.08 }}
-                  className="relative pl-16 md:pl-18"
-                  style={{ paddingLeft: "4.5rem" }}
-                >
-                  {/* Icon bubble */}
-                  <div
-                    className={`absolute left-0 w-11 h-11 rounded-xl flex items-center justify-center border ${cfg.bg} ${cfg.border}`}
-                  >
-                    <Icon size={16} className={cfg.color} />
-                  </div>
-
-                  {/* Card */}
-                  <div className="bg-white dark:bg-[#141414] border border-black/8 dark:border-white/10 rounded-xl p-5 hover:border-black/20 dark:hover:border-white/20 transition-colors duration-200">
-                    <div className="flex flex-wrap items-start justify-between gap-2 mb-1">
-                      <div>
-                        <h3 className="text-base font-space font-semibold text-zinc-900 dark:text-white leading-snug">
-                          {entry.title}
-                          {entry.current && (
-                            <span className="ml-2 px-2 py-0.5 text-xs bg-green-500/10 text-green-400 border border-green-500/20 rounded-full align-middle">
-                              Current
-                            </span>
-                          )}
-                        </h3>
-                        <p className="text-sm text-violet-400 mt-0.5">{entry.org}</p>
-                      </div>
-                      <span className="text-xs font-mono text-zinc-400 dark:text-gray-600 whitespace-nowrap pt-0.5">
-                        {entry.period}
-                      </span>
-                    </div>
-
-                    {/* Work bullets */}
-                    {entry.type === "work" && (
-                      <ul className="mt-3 space-y-2">
-                        {entry.bullets.map((b, j) => (
-                          <li key={j} className="text-sm text-zinc-500 dark:text-gray-400 flex gap-2 leading-relaxed">
-                            <span className="text-violet-500 mt-0.5 flex-shrink-0 font-bold">›</span>
-                            {b}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-
-                    {/* Education / Publication extra */}
-                    {(entry.type === "education" || entry.type === "publication") && entry.extra && (
-                      <p className="mt-2 text-sm text-zinc-500 dark:text-gray-400">{entry.extra}</p>
-                    )}
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-    </section>
+    </Section>
   );
 }

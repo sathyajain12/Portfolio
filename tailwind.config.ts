@@ -1,53 +1,35 @@
 import type { Config } from "tailwindcss";
 
-const colors = require("tailwindcss/colors");
-const {
-  default: flattenColorPalette,
-} = require("tailwindcss/lib/util/flattenColorPalette");
+const token = (name: string) => `rgb(var(--${name}) / <alpha-value>)`;
 
-/** @type {import('tailwindcss').Config} */
 const config: Config = {
   darkMode: "class",
   content: [
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/**/*.{ts,tsx}",
   ],
   theme: {
     extend: {
+      colors: {
+        paper: token("paper"),
+        "paper-2": token("paper-2"),
+        ink: token("ink"),
+        muted: token("muted"),
+        faint: token("faint"),
+        rule: token("rule"),
+        accent: token("accent"),
+      },
       fontFamily: {
-        sans: ["var(--font-inter)", "sans-serif"],
-        space: ["var(--font-space)", "sans-serif"],
-        mono: ["var(--font-mono)", "monospace"],
+        sans: ["var(--font-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
+        serif: ["var(--font-serif)", "ui-serif", "Georgia", "serif"],
+        mono: ["var(--font-mono)", "ui-monospace", "monospace"],
       },
-      animation: {
-        aurora: "aurora 60s linear infinite",
-      },
-      keyframes: {
-        aurora: {
-          from: {
-            backgroundPosition: "50% 50%, 50% 50%",
-          },
-          to: {
-            backgroundPosition: "350% 50%, 350% 50%",
-          },
-        },
+      maxWidth: {
+        page: "72rem",
       },
     },
   },
-  plugins: [addVariablesForColors],
+  plugins: [],
 };
-
-function addVariablesForColors({ addBase, theme }: any) {
-  let allColors = flattenColorPalette(theme("colors"));
-  let newVars = Object.fromEntries(
-    Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
-  );
-
-  addBase({
-    ":root": newVars,
-  });
-}
 
 export default config;

@@ -1,20 +1,20 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Projects from "@/components/Projects";
-import GitHubStats from "@/components/GitHubStats";
-import Skills from "@/components/Skills";
 import Experience from "@/components/Experience";
+import Skills from "@/components/Skills";
+import GitHubStats from "@/components/GitHubStats";
 import Contact from "@/components/Contact";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-white dark:bg-[#0a0a0a] text-zinc-900 dark:text-white">
+    <main className="min-h-screen">
       <Navbar />
       <Hero />
       <Projects />
-      <GitHubStats />
-      <Skills />
       <Experience />
+      <Skills />
+      <GitHubStats />
       <Contact />
     </main>
   );

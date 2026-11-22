@@ -1,163 +1,24 @@
-"use client";
+import Section from "./Section";
 
-import { motion } from "framer-motion";
-
-const skillGroups = [
-  {
-    label: "Frontend",
-    color: "cyan",
-    skills: ["React 19", "Next.js", "TypeScript", "JavaScript", "Vite", "Tailwind CSS"],
-  },
-  {
-    label: "Backend & APIs",
-    color: "violet",
-    skills: [
-      "Cloudflare Workers",
-      "Hono",
-      "REST APIs",
-      "Supabase",
-      "Firebase",
-      "Google Workspace APIs",
-    ],
-  },
-  {
-    label: "Infrastructure",
-    color: "orange",
-    skills: ["Cloudflare D1", "Cloudflare Pages", "Vercel", "GCP", "Git", "GitHub"],
-  },
-  {
-    label: "Languages",
-    color: "green",
-    skills: ["TypeScript", "JavaScript", "Python", "Google Apps Script"],
-  },
-  {
-    label: "Automation",
-    color: "yellow",
-    skills: ["n8n", "Python Scripting", "Google Apps Script"],
-  },
-  {
-    label: "Data & Research",
-    color: "pink",
-    skills: ["Data Science", "Big Data", "Streamlit", "IEEE Publication"],
-  },
+const groups = [
+  { label: "Frontend", items: "React 19, Next.js, TypeScript, Vite, Tailwind CSS" },
+  { label: "Backend", items: "Cloudflare Workers, Hono, REST APIs, Supabase, Firebase" },
+  { label: "Data & hosting", items: "Cloudflare D1 and Pages, Vercel, Google Cloud" },
+  { label: "Integrations", items: "Google Workspace APIs (Gmail, Drive, Sheets), Google OAuth" },
+  { label: "Automation", items: "Python, Google Apps Script, n8n, Streamlit" },
 ];
-
-type ColorKey = "cyan" | "violet" | "orange" | "green" | "yellow" | "pink";
-
-const colorMap: Record<
-  ColorKey,
-  { header: string; dot: string; badge: string }
-> = {
-  cyan: {
-    header: "text-cyan-400",
-    dot: "bg-cyan-400",
-    badge: "bg-cyan-500/10 text-cyan-300 border-cyan-500/20",
-  },
-  violet: {
-    header: "text-violet-400",
-    dot: "bg-violet-400",
-    badge: "bg-violet-500/10 text-violet-300 border-violet-500/20",
-  },
-  orange: {
-    header: "text-orange-400",
-    dot: "bg-orange-400",
-    badge: "bg-orange-500/10 text-orange-300 border-orange-500/20",
-  },
-  green: {
-    header: "text-green-400",
-    dot: "bg-green-400",
-    badge: "bg-green-500/10 text-green-300 border-green-500/20",
-  },
-  yellow: {
-    header: "text-yellow-400",
-    dot: "bg-yellow-400",
-    badge: "bg-yellow-500/10 text-yellow-300 border-yellow-500/20",
-  },
-  pink: {
-    header: "text-pink-400",
-    dot: "bg-pink-400",
-    badge: "bg-pink-500/10 text-pink-300 border-pink-500/20",
-  },
-};
 
 export default function Skills() {
   return (
-    <section id="skills" className="relative py-28 px-6 bg-white dark:bg-[#0a0a0a]">
-      {/* Violet glow left + noise */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(ellipse 50% 70% at 0% 50%, rgba(139,92,246,0.10) 0%, transparent 60%)",
-          }}
-        />
-        <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
-            backgroundRepeat: "repeat",
-            backgroundSize: "256px 256px",
-          }}
-        />
-      </div>
-      <div className="max-w-6xl mx-auto">
-        {/* Section header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="mb-16"
-        >
-          <span className="text-sm font-mono text-violet-400 tracking-widest uppercase">
-            // tech stack
-          </span>
-          <h2 className="text-4xl md:text-5xl font-space font-bold text-zinc-900 dark:text-white mt-3">
-            Skills
-          </h2>
-          <p className="text-zinc-500 dark:text-gray-400 mt-3 text-base">
-            Technologies I work with to build and ship products.
-          </p>
-        </motion.div>
-
-        {/* Skills Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {skillGroups.map((group, i) => {
-            const colors = colorMap[group.color as ColorKey];
-            return (
-              <motion.div
-                key={group.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.06 }}
-                className="bg-white dark:bg-[#141414] border border-black/8 dark:border-white/10 rounded-xl p-5 hover:border-black/20 dark:hover:border-white/20 transition-colors duration-300"
-              >
-                {/* Group header */}
-                <div className="flex items-center gap-2 mb-4">
-                  <div className={`w-2 h-2 rounded-full ${colors.dot}`} />
-                  <span className={`text-sm font-space font-semibold ${colors.header}`}>
-                    {group.label}
-                  </span>
-                </div>
-
-                {/* Skills */}
-                <div className="flex flex-wrap gap-2">
-                  {group.skills.map((skill) => (
-                    <span
-                      key={skill}
-                      className={`px-2.5 py-1 text-xs rounded-md border font-medium ${colors.badge}`}
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
-      </div>
-    </section>
+    <Section id="toolkit" number="03" title="Toolkit">
+      <dl className="divide-y divide-rule/10">
+        {groups.map((g) => (
+          <div key={g.label} className="py-4 first:pt-0 grid sm:grid-cols-[10rem_1fr] gap-x-6 gap-y-1">
+            <dt className="font-mono text-xs text-faint pt-1">{g.label}</dt>
+            <dd className="leading-relaxed">{g.items}</dd>
+          </div>
+        ))}
+      </dl>
+    </Section>
   );
 }
